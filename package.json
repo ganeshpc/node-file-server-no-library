@@ -1,0 +1,19 @@
+{
+  "name": "file-server-no-library",
+  "version": "1.0.0",
+  "description": "Node file server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ganeshpc/node-file-server-no-library.git"
+  },
+  "author": "ganeshpc",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ganeshpc/node-file-server-no-library/issues"
+  },
+  "homepage": "https://github.com/ganeshpc/node-file-server-no-library#readme"
+}
