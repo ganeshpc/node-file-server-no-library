@@ -1,4 +1,6 @@
-const fs = require("node:fs/promises");
+const fsPromises = require("node:fs/promises");
+const fs = require('fs')
+const path = require("node:path");
 
 const Router = require("./router");
 
@@ -65,7 +67,7 @@ router.get("/list", async (req, res) => {
     });
 
     // get list of all the files
-    const files = await fs.readdir(fileStorage);
+    const files = await fsPromises.readdir(fileStorage);
 
     res.write(`
             <!DOCTYPE html>
@@ -79,7 +81,7 @@ router.get("/list", async (req, res) => {
     `);
 
     for (const file of files) {
-        res.write(`<li><a href="/upload">${file}</a></li>`)
+        res.write(`<li><a href="/download?fileName=${file}" download>${file}</a></li>`)
     }
 
     res.end(`
@@ -90,12 +92,34 @@ router.get("/list", async (req, res) => {
     `);
 });
 
-// temperory post request
-router.post("/any/post", (req, res) => {
+router.get("/download", async (req, res) => {
+    const fileName = req.queryParams.fileName;
+    const fileStream = fs.createReadStream(path.join(fileStorage, fileName));
+
     res.writeHead(200, {
-        "content-type": "application/json",
-    });
-    res.write(`{"hello": "my name is hig"}`);
+        'content-type': 'application/octet-stream',
+        'content-disposition': `attachment; filename=${fileName}`
+    })
+    fileStream.pipe(res);
+})
+
+// temperory post request
+router.post("/upload", (req, res) => {
+
+    console.log(req.headers);
+    const data = []
+
+    req.on('data', (chunk) => {
+        console.log(typeof chunk);
+        data.push(chunk);
+    })
+
+    req.on('end', () => {
+        const strData = Buffer.concat(data).toString()
+        console.log(strData);
+    })
+
+    res.writeHead(200);
     res.end();
 });
 
