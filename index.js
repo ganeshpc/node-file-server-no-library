@@ -1,9 +1,12 @@
 const http = require("http");
+const Router = require("./src/router");
+const router = new Router();
 
 const port = 8000;
 
-const homepageRequest = (req, res) => {
-    res.writeHead(200, {
+// handle homepage request
+router.get("/", (req, res) => {
+	res.writeHead(200, {
         "content-type": "text/html",
     });
     res.end(`
@@ -53,9 +56,21 @@ const homepageRequest = (req, res) => {
 
             </html>
     `);
-};
+})
 
-const server = http.createServer(homepageRequest);
+// temperory post request
+router.post("/any/post", (req, res) => {
+	res.writeHead(200, {
+		'content-type': 'application/json'
+	});
+	res.write(`{"hello": "my name is hig"}`);
+	res.end();
+})
+
+
+const server = http.createServer((req, res) => {
+	router.handle(req, res);
+});
 
 server.listen(port, () => {
     console.log(`Server running on: http://localhost:${port}`);

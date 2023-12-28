@@ -6,3 +6,10 @@ This is simple file server created using node. The idea is to do it with basic h
 * Uploade File
 * Download File
 * Check if a file is present on the server
+
+
+#### References
+
+For basic routing take a look at: https://github.com/alberto-bottarini/httpdispatcher
+
+For more sophisticated and robust routing and request handling: https://github.com/expressjs/express
