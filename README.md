@@ -9,6 +9,7 @@ This is simple file server created using node. The idea is to do it with basic h
 
 #### In progress
 * Upload File (bus boy parses the incoming request body and separates headers and file data from the form-data request body. It will emit chunks of the file data from req body as them come)
+* Next step is to replace the busboy library with the own code.
 
 
 #### References
