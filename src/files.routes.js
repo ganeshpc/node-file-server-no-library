@@ -2,6 +2,7 @@ const fsPromises = require("node:fs/promises");
 const fs = require("fs");
 const path = require("node:path");
 
+const busboy = require("busboy");
 
 const Router = require("./router");
 
@@ -119,7 +120,22 @@ router.get("/upload-page", (req, res) => {
 });
 
 router.post("/upload", async (req, res) => {
-    
+    const bb = busboy({ headers: req.headers });
+    bb.on("file", (name, file, info) => {
+        const { filename, encoding, mimeType } = info;
+        const savedFile = fs.createWriteStream(path.join(fileStorage, filename));
+        
+        file.on("data", (data) => {
+            savedFile.write(data);
+        }).on("close", () => {
+            savedFile.close();
+
+            res.writeHead(200);
+            res.end();
+        });
+    });
+   
+    req.pipe(bb);
 });
 
 module.exports = router;

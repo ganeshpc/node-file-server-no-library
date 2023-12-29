@@ -20,5 +20,8 @@
   "homepage": "https://github.com/ganeshpc/node-file-server-no-library#readme",
   "devDependencies": {
     "nodemon": "^3.0.2"
+  },
+  "dependencies": {
+    "busboy": "^1.6.0"
   }
 }
