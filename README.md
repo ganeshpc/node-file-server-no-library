@@ -12,6 +12,20 @@ This is simple file server created using node. The idea is to do it with basic h
 * Next step is to replace the busboy library with the own code.
 
 
+#### Development
+
+##### On your machine
+* `npm install`
+* Update .env file for file storage location
+* `npm run start`
+* open: http://localhsot:8000
+
+##### Through Docker
+* `cd` to project directory
+* Build docker image -> `docker build -t your-image-name .`
+* Run docker container -> `docker run -p 8000:8000 -v /file/storage-path/on/your/machine:/path/provided/in/env your-image-name`
+* open: http://localhsot:8000
+
 #### References
 
 For basic routing take a look at: https://github.com/alberto-bottarini/httpdispatcher

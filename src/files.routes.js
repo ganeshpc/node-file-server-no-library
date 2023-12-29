@@ -8,7 +8,7 @@ const Router = require("./router");
 
 const router = new Router();
 
-const fileStorage = "D:/workdir/projects/file_storage";
+const fileStorage = process.env.FILE_STORAGE;
 
 router.get("/", (req, res) => {
     res.writeHead(200, {

@@ -1,7 +1,10 @@
 const http = require("http");
+
+require('dotenv').config();
+
 const router = require('./src/files.routes');
 
-const port = 8000;
+const port = process.env.PORT;
 
 const server = http.createServer((req, res) => {
 	router.handle(req, res);
