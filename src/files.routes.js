@@ -1,12 +1,13 @@
 const fsPromises = require("node:fs/promises");
-const fs = require('fs')
+const fs = require("fs");
 const path = require("node:path");
+
 
 const Router = require("./router");
 
 const router = new Router();
 
-const fileStorage = 'D:/workdir/projects/file_storage';
+const fileStorage = "D:/workdir/projects/file_storage";
 
 router.get("/", (req, res) => {
     res.writeHead(200, {
@@ -51,7 +52,7 @@ router.get("/", (req, res) => {
                     <div class="center">
                         <h1>Filer Server</h1>
 						<ul>
-							<li><a href="/upload">Upload File</a></li>
+							<li><a href="/upload-page">Upload File</a></li>
 							<li><a href="/list">List Files</a></li>
 						</ul>
                     </div>
@@ -81,7 +82,9 @@ router.get("/list", async (req, res) => {
     `);
 
     for (const file of files) {
-        res.write(`<li><a href="/download?fileName=${file}" download>${file}</a></li>`)
+        res.write(
+            `<li><a href="/download?fileName=${file}" download>${file}</a></li>`
+        );
     }
 
     res.end(`
@@ -97,30 +100,26 @@ router.get("/download", async (req, res) => {
     const fileStream = fs.createReadStream(path.join(fileStorage, fileName));
 
     res.writeHead(200, {
-        'content-type': 'application/octet-stream',
-        'content-disposition': `attachment; filename=${fileName}`
-    })
+        "content-type": "application/octet-stream",
+        "content-disposition": `attachment; filename=${fileName}`,
+    });
     fileStream.pipe(res);
-})
+});
 
-// temperory post request
-router.post("/upload", (req, res) => {
+router.get("/upload-page", (req, res) => {
+    res.writeHead(200, {
+        "content-type": "text/html",
+    });
+    res.end(`
+        <form action="/upload" method="POST" enctype="multipart/form-data"+>
+            <input type="file" id="myFile" name="filename">
+            <input type="submit">
+        </form> 
+    `);
+});
 
-    console.log(req.headers);
-    const data = []
-
-    req.on('data', (chunk) => {
-        console.log(typeof chunk);
-        data.push(chunk);
-    })
-
-    req.on('end', () => {
-        const strData = Buffer.concat(data).toString()
-        console.log(strData);
-    })
-
-    res.writeHead(200);
-    res.end();
+router.post("/upload", async (req, res) => {
+    
 });
 
 module.exports = router;
